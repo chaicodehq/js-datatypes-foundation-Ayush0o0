@@ -47,16 +47,42 @@
  */
 export function createPaanOrder(basePaan, customizations) {
   // Your code here
+  let basePaanCopy = Object.assign({}, basePaan);
+  if(typeof(basePaan) !== "object" || Array.isArray(basePaan) || basePaan === null) return {};
+  if(typeof(customizations) !== "object") return basePaanCopy;
+  const paanOrder = Object.assign(basePaanCopy, customizations);
+  return paanOrder;
 }
 
 export function freezeMenu(menu) {
   // Your code here
+  if(typeof(menu) !== "object" || Array.isArray(menu) || menu === null) return {};
+  const frozenMenu = Object.freeze(menu);
+  return frozenMenu;
 }
 
 export function updatePrices(menu, increase) {
   // Your code here
+  if(typeof(menu) !== "object" || Array.isArray(menu) || menu === null) return {};
+  if(typeof(increase) !== "number") return {};
+  const menuCopy = Object.assign({}, menu);
+  const menuEntries = Object.entries(menuCopy);
+  const updatedEntries = menuEntries.map(([key, value]) => {
+    return [key, value + increase]; 
+  })
+  return Object.fromEntries(updatedEntries);
 }
 
 export function mergeDailySpecials(regularMenu, specialsMenu) {
   // Your code here
+    if(typeof(regularMenu) !== "object" || Array.isArray(regularMenu) || regularMenu === null){
+       if(typeof(specialsMenu) !== "object" || Array.isArray(specialsMenu) || specialsMenu === null){
+        return {}
+       }else{
+        return {...specialsMenu}
+       }
+      };
+    if(typeof(specialsMenu) !== "object" || Array.isArray(specialsMenu) || specialsMenu === null) return {...regularMenu};
+    const mergeMenu = {...regularMenu, ...specialsMenu};
+    return mergeMenu;
 }
